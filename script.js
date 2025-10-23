@@ -3,20 +3,20 @@ const flashcards = {
   "Klær og farger": [
     { no: "Skjorte", noEx: "Jeg kjøpte en ny skjorte i går.", rs: "Košulja", rsEx: "Kupio sam novu košulju juče." },
     { no: "Bukse", noEx: "Han har på seg svarte bukser.", rs: "Pantalone", rsEx: "On nosi crne pantalone." },
+    { no: "Kjole", noEx: "Hun liker å bruke kjole om sommeren.", rs: "Haljina", rsEx: "Voli da nosi haljinu leti." },
     { no: "Jakke", noEx: "Jeg trenger en varm jakke.", rs: "Jakna", rsEx: "Treba mi topla jakna." },
-    { no: "Kjole", noEx: "Hun har en rød kjole.", rs: "Haljina", rsEx: "Ona ima crvenu haljinu." },
     { no: "Sko", noEx: "Disse skoene er komfortable.", rs: "Cipele", rsEx: "Ove cipele su udobne." },
-    { no: "Hatt", noEx: "Han bruker en hatt om vinteren.", rs: "Šešir", rsEx: "On nosi šešir zimi." },
-    { no: "Skjerf", noEx: "Jeg mistet skjerfet mitt.", rs: "Šal", rsEx: "Izgubio sam svoj šal." },
-    { no: "Hansker", noEx: "Hun kjøpte nye hansker.", rs: "Rukavice", rsEx: "Kupila je nove rukavice." },
+    { no: "Hatt", noEx: "Han har en blå hatt.", rs: "Šešir", rsEx: "On ima plavi šešir." },
+    { no: "Skjerf", noEx: "Hun bruker skjerf om vinteren.", rs: "Šal", rsEx: "Ona nosi šal zimi." },
+    { no: "Hansker", noEx: "Jeg mistet hanskene mine.", rs: "Rukavice", rsEx: "Izgubio sam svoje rukavice." },
     { no: "Genser", noEx: "Genseren er laget av ull.", rs: "Džemper", rsEx: "Džemper je od vune." },
-    { no: "T-skjorte", noEx: "Jeg liker denne T-skjorten.", rs: "Majica", rsEx: "Sviđa mi se ova majica." },
+    { no: "T-skjorte", noEx: "Han har på seg en hvit T-skjorte.", rs: "Majica", rsEx: "On nosi belu majicu." },
     { no: "Rød", noEx: "Eplet er rødt.", rs: "Crvena", rsEx: "Jabuka je crvena." },
     { no: "Blå", noEx: "Himmelen er blå.", rs: "Plava", rsEx: "Nebo je plavo." },
     { no: "Grønn", noEx: "Gresset er grønt.", rs: "Zelena", rsEx: "Trava je zelena." },
     { no: "Svart", noEx: "Katten er svart.", rs: "Crna", rsEx: "Mačka je crna." },
     { no: "Hvit", noEx: "Snøen er hvit.", rs: "Bela", rsEx: "Sneg je beo." }
-  ],
+  ]
   "På butikken": [
     { no: "Melk", noEx: "Jeg kjøper melk hver dag.", rs: "Mleko", rsEx: "Kupujem mleko svaki dan." },
     { no: "Brød", noEx: "Brødet er ferskt.", rs: "Hleb", rsEx: "Hleb je svež." },
@@ -87,26 +87,48 @@ const flashcards = {
   ]
 };
 
-const app = document.getElementById('app');
+function createCard(cardData) {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.onclick = () => card.classList.toggle('flipped');
 
-Object.entries(flashcards).forEach(([theme, cards]) => {
-  const section = document.createElement('div');
-  section.className = 'theme';
-  const heading = document.createElement('h2');
-  heading.textContent = `Tema: ${theme}`;
-  section.appendChild(heading);
+  const inner = document.createElement('div');
+  inner.className = 'card-inner';
 
-  cards.forEach(card => {
-    const cardDiv = document.createElement('div');
-    cardDiv.className = 'card';
-    cardDiv.innerHTML = `
-      <p><span class="label">Norsk ord:</span> ${card.no}</p>
-      <p><span class="label">Eksempel (NO):</span> ${card.noEx}</p>
-      <p><span class="label">Serbisk ord:</span> ${card.rs}</p>
-      <p><span class="label">Eksempel (RS):</span> ${card.rsEx}</p>
-    `;
-    section.appendChild(cardDiv);
-  });
+  const front = document.createElement('div');
+  front.className = 'card-front';
+  front.innerHTML = `<strong>${cardData.no}</strong><br><em>${cardData.noEx}</em>`;
 
-  app.appendChild(section);
-});
+  const back = document.createElement('div');
+  back.className = 'card-back';
+  back.innerHTML = `<strong>${cardData.rs}</strong><br><em>${cardData.rsEx}</em>`;
+
+  inner.appendChild(front);
+  inner.appendChild(back);
+  card.appendChild(inner);
+  return card;
+}
+
+function renderFlashcards() {
+  const app = document.getElementById('app');
+  for (const theme in flashcards) {
+    const section = document.createElement('div');
+    section.className = 'theme';
+
+    const title = document.createElement('h2');
+    title.textContent = `Tema: ${theme}`;
+    section.appendChild(title);
+
+    const container = document.createElement('div');
+    container.className = 'card-container';
+
+    flashcards[theme].forEach(cardData => {
+      container.appendChild(createCard(cardData));
+    });
+
+    section.appendChild(container);
+    app.appendChild(section);
+  }
+}
+
+renderFlashcards();
