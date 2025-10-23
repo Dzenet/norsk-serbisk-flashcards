@@ -16,7 +16,7 @@ const flashcards = {
     { no: "Grønn", noEx: "Gresset er grønt.", rs: "Zelena", rsEx: "Trava je zelena." },
     { no: "Svart", noEx: "Katten er svart.", rs: "Crna", rsEx: "Mačka je crna." },
     { no: "Hvit", noEx: "Snøen er hvit.", rs: "Bela", rsEx: "Sneg je beo." }
-  ]
+  ],
   "På butikken": [
     { no: "Melk", noEx: "Jeg kjøper melk hver dag.", rs: "Mleko", rsEx: "Kupujem mleko svaki dan." },
     { no: "Brød", noEx: "Brødet er ferskt.", rs: "Hleb", rsEx: "Hleb je svež." },
